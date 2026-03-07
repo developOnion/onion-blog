@@ -1,0 +1,23 @@
+services:
+  postgres:
+    container_name: postgres-onion-blog
+    image: postgres:15.0
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      -  postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - onion-blog
+    restart: unless-stopped
+
+networks:
+  onion-blog:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
