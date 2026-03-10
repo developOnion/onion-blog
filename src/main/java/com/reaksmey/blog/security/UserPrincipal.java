@@ -1,11 +1,10 @@
 package com.reaksmey.blog.security;
 
-import com.reaksmey.blog.model.user.User;
+import com.reaksmey.blog.model.User;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 import java.util.Collection;

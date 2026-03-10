@@ -2,6 +2,7 @@ package com.reaksmey.blog.exception;
 
 import com.reaksmey.blog.dto.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -131,6 +132,19 @@ public class GlobalExceptionHandler {
 			HttpStatus.BAD_REQUEST,
 			"Validation failed for one or more fields",
 			errors
+		);
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+
+	@ExceptionHandler(PropertyReferenceException.class)
+	public ResponseEntity<ErrorResponse> handlePropertyReferenceException(
+		PropertyReferenceException ex
+	) {
+
+		ErrorResponse errorResponse = createErrorResponse(
+			HttpStatus.BAD_REQUEST,
+			"Invalid property reference: " + ex.getMessage()
 		);
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);

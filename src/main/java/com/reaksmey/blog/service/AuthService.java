@@ -5,11 +5,13 @@ import com.reaksmey.blog.dto.LoginResponse;
 import com.reaksmey.blog.exception.AuthenticationException;
 import com.reaksmey.blog.repository.UserRepository;
 import com.reaksmey.blog.security.JwtService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class AuthService {
 
@@ -33,8 +35,7 @@ public class AuthService {
 
 	public LoginResponse authenticate(LoginRequest loginRequest) {
 
-		System.out.println("Authenticating user: " + loginRequest.username());
-
+		log.info("Authenticating user: {}", loginRequest.username());
 		try {
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
 				loginRequest.username(),

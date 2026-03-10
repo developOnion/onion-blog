@@ -1,6 +1,6 @@
 package com.reaksmey.blog.security;
 
-import com.reaksmey.blog.model.user.User;
+import com.reaksmey.blog.model.User;
 import com.reaksmey.blog.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,22 +1,14 @@
 package com.reaksmey.blog.security;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.time.LocalDateTime;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -27,11 +19,15 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
 	private final JwtFilter jwtFilter;
-	private final UserDetailsServiceImpl userDetailsService;
+	private final AuthenticationProvider authenticationProvider;
 
-	public SecurityConfig(JwtFilter jwtFilter, UserDetailsServiceImpl userDetailsService) {
+	public SecurityConfig(
+		JwtFilter jwtFilter,
+		AuthenticationProvider authenticationProvider
+	) {
+
 		this.jwtFilter = jwtFilter;
-		this.userDetailsService = userDetailsService;
+		this.authenticationProvider = authenticationProvider;
 	}
 
 	@Bean
@@ -44,7 +40,10 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers(
-					"/auth/**"
+					"/auth/**",
+					"/v3/api-docs/**",
+					"/swagger-ui/**",
+					"/swagger-ui.html"
 				).permitAll()
 				.anyRequest().authenticated()
 			)
@@ -52,29 +51,8 @@ public class SecurityConfig {
 				session -> session
 					.sessionCreationPolicy(STATELESS)
 			)
-			.authenticationProvider(authenticationProvider())
+			.authenticationProvider(authenticationProvider)
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 			.build();
-	}
-
-	@Bean
-	public AuthenticationProvider authenticationProvider() {
-
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
-		authProvider.setPasswordEncoder(passwordEncoder());
-
-		return authProvider;
-	}
-
-	@Bean
-	public AuthenticationManager authenticationManager(
-		AuthenticationConfiguration config
-	) {
-		return config.getAuthenticationManager();
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(12);
 	}
 }

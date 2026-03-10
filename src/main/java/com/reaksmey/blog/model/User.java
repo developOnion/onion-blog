@@ -1,6 +1,5 @@
-package com.reaksmey.blog.model.user;
+package com.reaksmey.blog.model;
 
-import com.reaksmey.blog.model.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

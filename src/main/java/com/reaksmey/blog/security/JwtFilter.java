@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+@Slf4j
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -40,8 +42,16 @@ public class JwtFilter extends OncePerRequestFilter {
 		@NonNull FilterChain filterChain
 	) throws ServletException, IOException {
 
-		if (request.getServletPath().contains("/api/v1/auth")) {
-			System.out.println("Skipping JWT filter for auth endpoint");
+		final String path = request.getServletPath();
+		log.info("Incoming request to {}", path);
+
+		if (path.startsWith("/auth")
+			|| path.startsWith("/v3/api-docs")
+			|| path.startsWith("/swagger-ui")
+			|| path.equals("/swagger-ui.html")
+		) {
+			log.info("Request to {} - skipping JWT filter", request.getServletPath());
+			log.info("Skipping JWT filter for auth endpoint");
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -51,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
 		final String username;
 
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-			System.out.println("Missing or invalid Authorization header");
+			log.info("Missing or invalid Authorization header");
 			filterChain.doFilter(request, response);
 			return;
 		}
