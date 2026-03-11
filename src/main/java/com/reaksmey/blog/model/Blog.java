@@ -23,7 +23,6 @@ public class Blog extends BaseEntity {
 	@Column(nullable = false, unique = true)
 	private String slug;
 
-	@Lob
 	@NotEmpty
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
@@ -40,5 +39,6 @@ public class Blog extends BaseEntity {
 
 	@NotNull
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private BlogStatus status;
 }

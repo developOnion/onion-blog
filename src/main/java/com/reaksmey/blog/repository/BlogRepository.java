@@ -11,4 +11,6 @@ import java.util.UUID;
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, UUID> {
 	boolean existsBySlug(String slug);
+
+	Optional<Blog> findByIdAndAuthor_Id(UUID id, UUID authorId);
 }

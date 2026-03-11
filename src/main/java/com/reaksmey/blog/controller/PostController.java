@@ -1,12 +1,12 @@
 package com.reaksmey.blog.controller;
 
+import com.reaksmey.blog.dto.BlogPatchRequest;
 import com.reaksmey.blog.dto.BlogRequest;
 import com.reaksmey.blog.dto.BlogResponse;
 import com.reaksmey.blog.security.UserPrincipal;
 import com.reaksmey.blog.service.PostService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -60,5 +60,16 @@ public class PostController {
 
 		BlogResponse createdPost = postService.createPost(blogRequest, currentUser.user());
 		return ResponseEntity.ok().body(createdPost);
+	}
+
+	@PatchMapping("/{id}")
+	public ResponseEntity<BlogResponse> updatePost(
+		@PathVariable UUID id,
+		@Valid @RequestBody BlogPatchRequest blogRequest,
+		@AuthenticationPrincipal UserPrincipal currentUser
+	) {
+
+		BlogResponse updatedPost = postService.updatePost(id, blogRequest, currentUser.user());
+		return ResponseEntity.ok().body(updatedPost);
 	}
 }

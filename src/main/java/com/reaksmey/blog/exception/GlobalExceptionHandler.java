@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -159,6 +160,19 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = createErrorResponse(
 			HttpStatus.BAD_REQUEST,
 			"Invalid type for parameter: " + ex.getName()
+		);
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
+		HttpMessageNotReadableException ex
+	) {
+
+		ErrorResponse errorResponse = createErrorResponse(
+			HttpStatus.BAD_REQUEST,
+			"Malformed JSON request: " + ex.getMessage()
 		);
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
