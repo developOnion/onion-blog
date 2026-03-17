@@ -15,10 +15,10 @@ public class DataInitializer implements CommandLineRunner {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	@Value("${app.seed.admin.username:}")
+	@Value("${app.seed.admin.username}")
 	private String seedUsername;
 
-	@Value("${app.seed.admin.password:}")
+	@Value("${app.seed.admin.password}")
 	private String seedPassword;
 
 	public DataInitializer(

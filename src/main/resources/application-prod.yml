@@ -16,6 +16,11 @@ spring:
   sql:
     init:
       mode: never
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+    baseline-description: "initial migration"
+    baseline-version: 0
 
 logging:
   level:
