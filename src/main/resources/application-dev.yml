@@ -16,6 +16,10 @@ spring:
   sql:
     init:
       mode: always
+  flyway:
+    placeholders:
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
 
 application:
     security:

@@ -21,6 +21,9 @@ spring:
     validate-on-migrate: true
     baseline-description: "initial migration"
     baseline-version: 0
+    placeholders:
+      ADMIN_USERNAME: ${PROD_ADMIN_USERNAME}
+      ADMIN_PASSWORD_HASH: ${PROD_ADMIN_PASSWORD_HASH}
 
 logging:
   level:

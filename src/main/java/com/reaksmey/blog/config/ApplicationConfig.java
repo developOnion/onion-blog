@@ -2,7 +2,7 @@ package com.reaksmey.blog.config;
 
 
 import com.github.slugify.Slugify;
-import com.reaksmey.blog.security.UserDetailsServiceImpl;
+import com.reaksmey.blog.auth.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

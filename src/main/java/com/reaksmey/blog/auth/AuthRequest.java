@@ -1,8 +1,8 @@
-package com.reaksmey.blog.dto;
+package com.reaksmey.blog.auth;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record LoginRequest(
+public record AuthRequest(
 
 	@NotBlank(message = "Username is required")
 	String username,

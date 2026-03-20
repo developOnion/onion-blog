@@ -1,4 +1,4 @@
-package com.reaksmey.blog.security;
+package com.reaksmey.blog.auth;
 
 import com.reaksmey.blog.model.User;
 import org.jspecify.annotations.Nullable;

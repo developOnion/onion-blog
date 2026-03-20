@@ -1,7 +1,7 @@
 package com.reaksmey.blog.controller;
 
-import com.reaksmey.blog.dto.LoginRequest;
-import com.reaksmey.blog.dto.LoginResponse;
+import com.reaksmey.blog.auth.AuthRequest;
+import com.reaksmey.blog.auth.AuthResponse;
 import com.reaksmey.blog.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -25,11 +25,11 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<LoginResponse> login(
-		@Valid @RequestBody LoginRequest loginRequest
+	public ResponseEntity<AuthResponse> login(
+		@Valid @RequestBody AuthRequest loginRequest
 	) {
 
-		LoginResponse response = authService.authenticate(loginRequest);
+		AuthResponse response = authService.authenticate(loginRequest);
 
 		return ResponseEntity.ok().body(response);
 	}

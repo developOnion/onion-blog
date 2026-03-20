@@ -1,5 +1,6 @@
-package com.reaksmey.blog.security;
+package com.reaksmey.blog.config;
 
+import com.reaksmey.blog.auth.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;

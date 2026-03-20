@@ -1,4 +1,4 @@
-package com.reaksmey.blog.security;
+package com.reaksmey.blog.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

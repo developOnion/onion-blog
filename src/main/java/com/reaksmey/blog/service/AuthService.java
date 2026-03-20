@@ -1,10 +1,10 @@
 package com.reaksmey.blog.service;
 
-import com.reaksmey.blog.dto.LoginRequest;
-import com.reaksmey.blog.dto.LoginResponse;
+import com.reaksmey.blog.auth.AuthRequest;
+import com.reaksmey.blog.auth.AuthResponse;
 import com.reaksmey.blog.exception.AuthenticationException;
 import com.reaksmey.blog.repository.UserRepository;
-import com.reaksmey.blog.security.JwtService;
+import com.reaksmey.blog.config.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +34,7 @@ public class AuthService {
 	}
 
 
-	public LoginResponse authenticate(LoginRequest loginRequest) {
+	public AuthResponse authenticate(AuthRequest loginRequest) {
 
 		try {
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -45,7 +45,7 @@ public class AuthService {
 
 			String token = jwtService.generateToken(loginRequest.username());
 
-			return new LoginResponse(token);
+			return new AuthResponse(token);
 		} catch (org.springframework.security.core.AuthenticationException e) {
 			throw new AuthenticationException("Invalid username or password");
 		}

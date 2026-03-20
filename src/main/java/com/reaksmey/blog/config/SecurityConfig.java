@@ -1,4 +1,4 @@
-package com.reaksmey.blog.security;
+package com.reaksmey.blog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
