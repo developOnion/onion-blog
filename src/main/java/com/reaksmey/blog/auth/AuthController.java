@@ -29,10 +29,11 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<AuthResponse> login(
-		@Valid @RequestBody AuthRequest loginRequest
+		@Valid @RequestBody AuthRequest loginRequest,
+		HttpServletResponse response
 	) {
-		AuthResponse response = authService.authenticate(loginRequest);
-		return ResponseEntity.ok().body(response);
+		AuthResponse authResponse = authService.authenticate(loginRequest, response);
+		return ResponseEntity.ok().body(authResponse);
 	}
 
 	@PostMapping("/refresh-token")
@@ -45,9 +46,10 @@ public class AuthController {
 
 	@PostMapping("/register")
 	public ResponseEntity<AuthResponse> register(
-		@Valid @RequestBody AuthRequest registerRequest
+		@Valid @RequestBody AuthRequest registerRequest,
+		HttpServletResponse response
 	) {
-		AuthResponse response = authService.register(registerRequest);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		AuthResponse authResponse = authService.register(registerRequest, response);
+		return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
 	}
 }

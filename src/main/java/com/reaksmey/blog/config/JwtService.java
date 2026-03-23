@@ -1,9 +1,12 @@
 package com.reaksmey.blog.config;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -96,5 +99,18 @@ public class JwtService {
 		boolean isTokenExpired = isTokenExpired(token);
 
 		return isUsernameValid && !isTokenExpired;
+	}
+
+	public Long getRefreshExpirationTime() {
+		return REFRESH_EXPIRATION_TIME;
+	}
+
+	public String mapExceptionToClientMessage(JwtException e) {
+		return switch (e) {
+			case ExpiredJwtException expiredJwtException -> "JWT expired";
+			case SignatureException signatureException -> "Invalid JWT signature";
+			case MalformedJwtException malformedJwtException -> "Malformed JWT";
+			case null, default -> "Invalid token";
+		};
 	}
 }

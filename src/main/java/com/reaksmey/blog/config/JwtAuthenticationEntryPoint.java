@@ -28,11 +28,16 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
+		String message = authException.getMessage();
+		if ("Full authentication is required to access this resource".equals(message)) {
+			message = "Authentication token is missing or invalid";
+		}
+
 		ErrorResponse error = new ErrorResponse(
 			LocalDateTime.now(),
 			HttpStatus.UNAUTHORIZED.value(),
 			HttpStatus.UNAUTHORIZED.getReasonPhrase(),
-			authException.getMessage()
+			message
 		);
 
 		ObjectMapper mapper = new ObjectMapper();
