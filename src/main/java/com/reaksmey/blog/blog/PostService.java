@@ -20,11 +20,7 @@ public class PostService {
 	private final BlogMapper blogMapper;
 	private final SlugUtil slugUtil;
 
-	public PostService(
-		BlogRepository blogRepository,
-		BlogMapper blogMapper,
-		SlugUtil slugUtil
-	) {
+	public PostService(BlogRepository blogRepository, BlogMapper blogMapper, SlugUtil slugUtil) {
 
 		this.blogRepository = blogRepository;
 		this.blogMapper = blogMapper;
@@ -46,19 +42,9 @@ public class PostService {
 
 		final String slug = slugUtil.generateSlug(blogRequest.title());
 
-		final String excerpt = blogRequest.excerpt() != null
-			? blogRequest.excerpt()
-			: blogRequest.content().substring(0, Math.min(EXCERPT_LENGTH, blogRequest.content().length()));
+		final String excerpt = blogRequest.excerpt() != null ? blogRequest.excerpt() : blogRequest.content().substring(0, Math.min(EXCERPT_LENGTH, blogRequest.content().length()));
 
-		final Blog blog = Blog.builder()
-			.title(blogRequest.title())
-			.slug(slug)
-			.content(blogRequest.content())
-			.excerpt(excerpt)
-			.author(user)
-			.featuredImageUrl(blogRequest.featuredImageUrl())
-			.status(blogRequest.status())
-			.build();
+		final Blog blog = Blog.builder().title(blogRequest.title()).slug(slug).content(blogRequest.content()).excerpt(excerpt).author(user).featuredImageUrl(blogRequest.featuredImageUrl()).status(blogRequest.status()).build();
 
 		final Blog savedBlog = blogRepository.save(blog);
 		log.info("Blog post saved with id: {}", savedBlog.getId());
@@ -70,8 +56,7 @@ public class PostService {
 	public BlogResponse getPostById(final UUID id) {
 
 		log.info("Fetching blog post with id: {}", id);
-		final Blog blog = blogRepository.findById(id)
-			.orElseThrow(() -> new ResourceNotFoundException("Blog post not found with id: " + id));
+		final Blog blog = blogRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Blog post not found with id: " + id));
 		log.info("Blog post found: {}, {}", blog.getTitle(), blog.getSlug());
 
 		return blogMapper.toDto(blog);
@@ -82,8 +67,7 @@ public class PostService {
 
 		log.info("Updating blog post with id: {}", id);
 
-		final Blog blog = blogRepository.findByIdAndAuthor_Id(id, user.getId())
-			.orElseThrow(() -> new ResourceNotFoundException("Blog post not found with id: " + id));
+		final Blog blog = blogRepository.findByIdAndAuthor_Id(id, user.getId()).orElseThrow(() -> new ResourceNotFoundException("Blog post not found with id: " + id));
 
 		if (blogRequest.title() != null && !blogRequest.title().isBlank()) {
 			blog.setTitle(blogRequest.title());
@@ -114,8 +98,7 @@ public class PostService {
 
 		log.info("Deleting blog post with id: {}", id);
 
-		final Blog blog = blogRepository.findByIdAndAuthor_Id(id, user.getId())
-			.orElseThrow(() -> new ResourceNotFoundException("Blog post not found with id: " + id));
+		final Blog blog = blogRepository.findByIdAndAuthor_Id(id, user.getId()).orElseThrow(() -> new ResourceNotFoundException("Blog post not found with id: " + id));
 
 		blogRepository.delete(blog);
 		log.info("Blog post deleted with id: {}", id);

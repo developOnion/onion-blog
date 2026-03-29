@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleResourceNotFoundException(
 		ResourceNotFoundException ex
 	) {
-		log.error("Resource not found: {}", ex.getMessage(), ex);
+		log.info("Resource not found: {}", ex.getMessage());
 
 		ErrorResponse errorResponse = createErrorResponse(
 			HttpStatus.NOT_FOUND,
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleResourceAlreadyExistsException(
 		ResourceAlreadyExistsException ex
 	) {
-		log.error("Conflict error: {}", ex.getMessage(), ex);
+		log.info("Conflict error: {}", ex.getMessage());
 
 		ErrorResponse errorResponse = createErrorResponse(
 			HttpStatus.CONFLICT,
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleAuthenticationException(
 		AuthenticationException ex
 	) {
-		log.error("Authentication error: {}", ex.getMessage(), ex);
+		log.warn("Authentication error: {}", ex.getMessage());
 
 		ErrorResponse errorResponse = createErrorResponse(
 			HttpStatus.UNAUTHORIZED,
@@ -88,7 +88,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleSpringAuthenticationException(
 		org.springframework.security.core.AuthenticationException ex
 	) {
-		log.error("Handling Spring Security AuthenticationException: {}", ex.getMessage());
+		log.warn("Spring Security AuthenticationException: {}", ex.getMessage());
 
 		ErrorResponse errorResponse = createErrorResponse(
 			HttpStatus.UNAUTHORIZED,
@@ -102,7 +102,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(
 		MethodArgumentNotValidException ex
 	) {
-		log.error("Validation error: {}", ex.getMessage(), ex);
+		log.info("Validation error: {}", ex.getMessage());
 
 		Map<String, String> validationErrors = new HashMap<>();
 

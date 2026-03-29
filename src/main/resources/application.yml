@@ -19,3 +19,11 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+management:
+  endpoint:
+    health:
+      show-details: when_authorized
+  endpoints:
+    web:
+      exposure:
+        include: health
