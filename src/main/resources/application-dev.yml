@@ -1,34 +1,19 @@
 spring:
-  datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: create
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
-      mode: always
+      mode: never
   flyway:
-    enabled: false
+    placeholders:
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD_HASH: '${ADMIN_PASSWORD_HASH}'
 
 application:
-    security:
-      jwt:
-        secret-key: ${JWT_SECRET_KEY}
-        expiration: ${JWT_EXPIRATION_TIME}
-        refresh-token:
-          expiration: ${JWT_REFRESH_EXPIRATION_TIME}
-
-app:
-  seed:
-    admin:
-      username: ${ADMIN_USERNAME}
-      password: ${ADMIN_PASSWORD}
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}
+      expiration: ${JWT_EXPIRATION_TIME}
+      refresh-token:
+        expiration: ${JWT_REFRESH_EXPIRATION_TIME}

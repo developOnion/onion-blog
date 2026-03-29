@@ -1,29 +1,20 @@
 spring:
-  datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: false
     properties:
       hibernate:
         format_sql: false
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
       mode: never
   flyway:
-    enabled: true
     validate-on-migrate: true
     baseline-description: "initial migration"
     baseline-version: 0
     placeholders:
       ADMIN_USERNAME: ${PROD_ADMIN_USERNAME}
-      ADMIN_PASSWORD_HASH: ${PROD_ADMIN_PASSWORD_HASH}
+      ADMIN_PASSWORD_HASH: '${PROD_ADMIN_PASSWORD_HASH}'
 
 springdoc:
   api-docs:
@@ -40,3 +31,5 @@ application:
     jwt:
       secret-key: ${JWT_SECRET_KEY}
       expiration: ${JWT_EXPIRATION_TIME}
+      refresh-token:
+        expiration: ${JWT_REFRESH_EXPIRATION_TIME}

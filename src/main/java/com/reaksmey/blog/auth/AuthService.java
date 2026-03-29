@@ -65,9 +65,13 @@ public class AuthService {
 				loginRequest.password()
 			);
 			authManager.authenticate(authToken);
+			log.info("Authentication successful for user: {}", loginRequest.username());
 
 			var user = userRepository.findByUsername(loginRequest.username())
-				.orElseThrow(() -> new AuthenticationException("User not found"));
+				.orElseThrow(() -> {
+					log.info("User not found: {}", loginRequest.username());
+					return new AuthenticationException("User not found");
+				});
 
 			UserPrincipal principal = new UserPrincipal(user);
 			var token = jwtService.generateToken(principal);
