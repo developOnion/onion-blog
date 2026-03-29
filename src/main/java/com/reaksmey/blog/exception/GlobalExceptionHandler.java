@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleAuthenticationException(
 		AuthenticationException ex
 	) {
-		log.warn("Authentication error: {}", ex.getMessage());
+		log.error("Authentication error: {}", ex.getMessage(), ex);
 
 		ErrorResponse errorResponse = createErrorResponse(
 			HttpStatus.UNAUTHORIZED,
@@ -82,6 +82,20 @@ public class GlobalExceptionHandler {
 		);
 
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+	}
+
+	@ExceptionHandler(TooManyRequestsException.class)
+	public ResponseEntity<ErrorResponse> handleTooManyRequestsException(
+		TooManyRequestsException ex
+	) {
+		log.error("Too many requests: {}", ex.getMessage(), ex);
+
+		ErrorResponse errorResponse = createErrorResponse(
+			HttpStatus.TOO_MANY_REQUESTS,
+			ex.getMessage()
+		);
+
+		return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(errorResponse);
 	}
 
 	@ExceptionHandler(org.springframework.security.core.AuthenticationException.class)

@@ -35,18 +35,21 @@ public class SecurityConfig {
 	};
 
 	private final JwtFilter jwtFilter;
+	private final RateLimitFilter rateLimitFilter;
 	private final AuthenticationProvider authenticationProvider;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final LogoutService logoutService;
 
 	public SecurityConfig(
 		JwtFilter jwtFilter,
+		RateLimitFilter rateLimitFilter,
 		AuthenticationProvider authenticationProvider,
 		JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
 		LogoutService logoutService
 	) {
 
 		this.jwtFilter = jwtFilter;
+		this.rateLimitFilter = rateLimitFilter;
 		this.authenticationProvider = authenticationProvider;
 		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
 		this.logoutService = logoutService;
@@ -71,6 +74,7 @@ public class SecurityConfig {
 			)
 			.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 			.authenticationProvider(authenticationProvider)
+			.addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 			.logout(logout ->
 				logout.logoutUrl("/auth/logout")
